@@ -1,4 +1,8 @@
 package com.joseantoniovaliente.proyectomarvel.model
 
-class Character {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+class Character(val name: String, val url: String): Parcelable  {
 }

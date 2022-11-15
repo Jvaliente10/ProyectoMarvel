@@ -13,12 +13,12 @@ import androidx.navigation.fragment.findNavController
 import com.joseantoniovaliente.proyectomarvel.R
 import com.joseantoniovaliente.proyectomarvel.databinding.FragmentMainBinding
 import com.joseantoniovaliente.proyectomarvel.ui.detail.DetailFragment
-import okhttp3.internal.notify
+
 
 class MainFragment:Fragment(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: FragmentMainBinding
-    private val adapter= CharacterAdapter(){ character -> viewModel.navigateTo(character)}
+    private val adapter = CharacterAdapter(){ character -> viewModel.navigateTo(character) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,13 +29,13 @@ class MainFragment:Fragment(R.layout.fragment_main) {
 
         viewModel.state.observe(viewLifecycleOwner){state ->
             binding.progress.visibility =  if (state.loading) VISIBLE else GONE
-            state.character?.let{
-                adapter.characters = state.character
+            state.characters?.let{
+                adapter.characters = state.characters
                 adapter.notifyDataSetChanged()
             }
             state.navigateTo?.let{
                 findNavController().navigate(
-                    R.id.action_mainFragment_to_datailFragment,
+                    R.id.action_mainFragment_to_detailFragment,
                     bundleOf(DetailFragment.EXTRA_CHARACTER to it)
                 )
                 viewModel.onNavigateDone()
