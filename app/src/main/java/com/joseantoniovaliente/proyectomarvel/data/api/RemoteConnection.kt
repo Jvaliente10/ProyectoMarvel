@@ -6,12 +6,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RemoteConection {
+object RemoteConnection {
     private val retrofit by lazy {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
         val client = OkHttpClient.Builder()
-
             .addInterceptor(logging)
             .build()
         Retrofit.Builder()
@@ -21,8 +20,7 @@ object RemoteConection {
             .build()
     }
 
-    val api by lazy {
+    val service by lazy {
         retrofit.create(TheMCharacterService::class.java)
     }
-
 }

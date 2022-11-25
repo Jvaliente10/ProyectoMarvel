@@ -1,6 +1,5 @@
 package com.joseantoniovaliente.proyectomarvel.ui.viewmodel
 import androidx.lifecycle.*
-import com.joseantoniovaliente.proyectomarvel.data.model.MCharacterResponse
 import com.joseantoniovaliente.proyectomarvel.data.repository.MCharacterRepository
 import com.joseantoniovaliente.proyectomarvel.utils.Resource
 import kotlinx.coroutines.*

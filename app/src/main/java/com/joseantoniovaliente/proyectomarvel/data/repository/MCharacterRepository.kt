@@ -1,7 +1,7 @@
 package com.joseantoniovaliente.proyectomarvel.data.repository
 
-import com.joseantoniovaliente.proyectomarvel.data.api.RemoteConection
+import com.joseantoniovaliente.proyectomarvel.data.api.RemoteConnection
 
 class MCharacterRepository {
-    fun getMCharacters() = RemoteConection.api.getMCharacters()
+    fun getMCharacters() = RemoteConnection.service.getMCharacters()
 }

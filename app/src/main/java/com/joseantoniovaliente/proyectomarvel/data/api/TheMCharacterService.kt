@@ -1,7 +1,7 @@
 package com.joseantoniovaliente.proyectomarvel.data.api
 
-import com.joseantoniovaliente.proyectomarvel.utils.Constant
 import com.joseantoniovaliente.proyectomarvel.data.model.MCharacterResponse
+import com.joseantoniovaliente.proyectomarvel.utils.Constant
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

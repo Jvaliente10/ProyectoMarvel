@@ -10,61 +10,42 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.joseantoniovaliente.proyectomarvel.R
 import com.joseantoniovaliente.proyectomarvel.data.model.MCharacterResult
+import com.joseantoniovaliente.proyectomarvel.databinding.ItemCharacterBinding
+import com.joseantoniovaliente.proyectomarvel.utils.inflate
+import com.joseantoniovaliente.proyectomarvel.utils.loadUrl
 
 
+class MCharacterAdapter(val listener: (MCharacterResult) -> Unit):
+    RecyclerView.Adapter<MCharacterAdapter.ViewHolder>() {
 
-class MCharacterAdapter(): RecyclerView.Adapter<MCharacterAdapter.MCharacterViewModel>(){
+    var mCharacters = emptyList<MCharacterResult>()
 
 
-    inner class MCharacterViewModel(itemView: View):RecyclerView.ViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = parent.inflate(R.layout.item_character, false)
+        return ViewHolder(view)
+    }
 
-    private val differCallback = object : DiffUtil.ItemCallback<MCharacterResult> (){
-        override fun areItemsTheSame(oldItem: MCharacterResult, newItem: MCharacterResult): Boolean {
-            return oldItem.name == newItem.name
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val mCharacter = mCharacters[position]
+        holder.bind(mCharacter)
 
-        override fun areContentsTheSame(oldItem: MCharacterResult, newItem: MCharacterResult): Boolean {
-            return oldItem == newItem
+        holder.itemView.setOnClickListener {
+            listener(mCharacter)
         }
     }
 
-    val differ = AsyncListDiffer(this, differCallback)
+    override fun getItemCount(): Int = mCharacters.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MCharacterViewModel {
-        return MCharacterViewModel(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.view_mcharacter,
-                parent,
-                false
-            )
-        )
-    }
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view){
+        private val binding = ItemCharacterBinding.bind(view)
+        fun bind(mCharacterResult: MCharacterResult){
 
-    override fun onBindViewHolder(holder: MCharacterViewModel, position: Int) {
-        val character = differ.currentList[position]
-        holder.itemView.apply {
-            val requestOptions = RequestOptions()
-            requestOptions.placeholder(R.drawable.image)
-            requestOptions.error(R.drawable.image)
             Glide.with(this)
-                .load("${character.thumbnail?.path}.${character.thumbnail?.extension}")
+                .load("${mCharacterResult.thumbnail?.path}.${mCharacterResult.thumbnail?.extension}")
                 .apply(requestOptions)
                 .placeholder(R.drawable.image)
-                .into()
-
-            setOnClickListener {
-                onItemClickListener?.let { it(character) }
-            }
+                .into(rv_image)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
-
-    private var onItemClickListener:((MCharacterResult) -> Unit)? = null
-
-    fun setOnItemClicklistener(listener: (MCharacterResult) -> Unit){
-        onItemClickListener = listener
     }
 }
