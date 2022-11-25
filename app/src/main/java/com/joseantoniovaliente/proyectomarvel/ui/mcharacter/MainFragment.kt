@@ -3,28 +3,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.Observer
 import com.joseantoniovaliente.proyectomarvel.R
-import com.joseantoniovaliente.proyectomarvel.databinding.FragmentMainBinding
 import com.joseantoniovaliente.proyectomarvel.ui.adapter.MCharacterAdapter
-import com.joseantoniovaliente.proyectomarvel.ui.mcharacterdetail.DetailFragment
-import com.joseantoniovaliente.proyectomarvel.ui.viewmodel.MCharacterViewModel
 import com.joseantoniovaliente.proyectomarvel.ui.viewmodel.MainViewModel
-import com.joseantoniovaliente.proyectomarvel.ui.viewmodel.MainViewModelFactory
+import com.joseantoniovaliente.proyectomarvel.utils.Resource
 
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
-    private lateinit var comicsAdapter: MCharacterAdapter
+    lateinit var viewModel: MainViewModel
+    private lateinit var characterAdapter: MCharacterAdapter
 
 
     val TAG = "ComicFrag"
@@ -49,24 +42,24 @@ class MainFragment : Fragment() {
         viewModel = (fragment as MainActivity).viewModel
         recyclerView()
 
-        comicsAdapter.setOnItemClicklistener {
+        characterAdapter.setOnItemClicklistener {
             val bundle = Bundle().apply {
-                putSerializable("comic",it)
+                putSerializable("mCharacter",it)
             }
             findNavController().navigate(
-                R.id.action_comicsFragment_to_comicDetailFragment,
+                R.id.action_mainFragment_to_detailFragment,
                 bundle
             )
         }
 
-        viewModel.comics.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.mcharacters.observe(viewLifecycleOwner, Observer { response ->
             when(response) {
                 is Resource.Success ->{
                     hideProgressBar()
-                    response.data?.let {  comicsResponse ->
-                        comicsAdapter.differ.submitList(comicsResponse.data?.results)
-                        comicsAdapter.notifyDataSetChanged()
-                        Log.i(TAG, "Error is: $comicsResponse")
+                    response.data?.let {  mCharacterResponse ->
+                        characterAdapter.differ.submitList(mCharacterResponse.data?.results)
+                        characterAdapter.notifyDataSetChanged()
+                        Log.i(TAG, "Error is: $mCharacterResponse")
 
                     }
                 }
@@ -92,10 +85,10 @@ class MainFragment : Fragment() {
     }
 
     private fun recyclerView(){
-        comicsAdapter = ComicsAdapter()
+        characterAdapter = MCharacterAdapter()
         rvComics.apply {
-            adapter = comicsAdapter
-            comicsAdapter.notifyDataSetChanged()
+            adapter = characterAdapter
+            characterAdapter.notifyDataSetChanged()
             layoutManager = GridLayoutManager(activity, 4, GridLayoutManager.HORIZONTAL,false)
         }
     }

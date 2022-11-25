@@ -1,6 +1,6 @@
 package com.joseantoniovaliente.proyectomarvel.data.model
 
-data class MCharacters(
+data class MCharacter(
     val attributionHTML: String,
     val attributionText: String,
     val code: Int,

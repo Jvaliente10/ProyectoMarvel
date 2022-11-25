@@ -1,6 +1,9 @@
 package com.joseantoniovaliente.proyectomarvel.data.model
 
-data class MCharacterResult(
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+@Parcelize
+data class Result(
     val comics: Comics,
     val description: String,
     val events: Events,
@@ -12,4 +15,6 @@ data class MCharacterResult(
     val stories: Stories,
     val thumbnail: Thumbnail,
     val urls: List<Url>
-)
+):Parcelable{
+
+}

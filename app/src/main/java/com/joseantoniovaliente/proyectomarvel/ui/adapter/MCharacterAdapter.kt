@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.joseantoniovaliente.proyectomarvel.R
-import com.joseantoniovaliente.proyectomarvel.data.model.MCharacterResult
-
 
 
 class MCharacterAdapter(): RecyclerView.Adapter<MCharacterAdapter.MCharacterViewModel>(){
@@ -33,7 +31,7 @@ class MCharacterAdapter(): RecyclerView.Adapter<MCharacterAdapter.MCharacterView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MCharacterViewModel {
         return MCharacterViewModel(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.view_mcharacter,
+                R.layout.item_character,
                 parent,
                 false
             )
@@ -41,19 +39,19 @@ class MCharacterAdapter(): RecyclerView.Adapter<MCharacterAdapter.MCharacterView
     }
 
     override fun onBindViewHolder(holder: MCharacterViewModel, position: Int) {
-        val character = differ.currentList[position]
+        val mCharacter = differ.currentList[position]
         holder.itemView.apply {
             val requestOptions = RequestOptions()
             requestOptions.placeholder(R.drawable.image)
             requestOptions.error(R.drawable.image)
             Glide.with(this)
-                .load("${character.thumbnail?.path}.${character.thumbnail?.extension}")
+                .load("${mCharacter.thumbnail?.path}.${mCharacter.thumbnail?.extension}")
                 .apply(requestOptions)
                 .placeholder(R.drawable.image)
-                .into()
+                .into(rv_image)
 
             setOnClickListener {
-                onItemClickListener?.let { it(character) }
+                onItemClickListener?.let { it(mCharacter) }
             }
         }
     }
